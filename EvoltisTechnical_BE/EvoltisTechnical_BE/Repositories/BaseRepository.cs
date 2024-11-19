@@ -1,4 +1,5 @@
-﻿using EvoltisTechnical_BE.Models.Entities.Common;
+﻿using EvoltisTechnical_BE.Data;
+using EvoltisTechnical_BE.Models.Entities.Common;
 using EvoltisTechnical_BE.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,7 @@ namespace EvoltisTechnical_BE.Repositories
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public BaseRepository(DbContext context) 
+        public BaseRepository(ApplicationDbContext context) 
         {
            _context = context;
             _dbSet = _context.Set<T>();

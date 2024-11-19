@@ -129,7 +129,7 @@ namespace EvoltisTechnical_BE.Controllers
         }
 
         /// <summary>
-        /// Logically delete a programmer from the system.
+        /// Logically deletes a programmer from the system.
         /// </summary>
         /// <param name="id"></param>
  

@@ -17,6 +17,15 @@ namespace EvoltisTechnical_BE.Data
                 .HasMany(p => p.Skills)
                 .WithMany()
                 .UsingEntity(j => j.ToTable("ProgrammerSkills"));
+
+            modelBuilder.Entity<SkillEntity>()
+                .HasData(
+                    new SkillEntity { Id = 1, Name = "C#" },
+                    new SkillEntity { Id = 2, Name = "JavaScript" },
+                    new SkillEntity { Id = 3, Name = "Python" },
+                    new SkillEntity { Id = 4, Name = "SQL" }
+
+                );
         }
 
 

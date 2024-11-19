@@ -8,7 +8,7 @@ namespace EvoltisTechnical_BE.Repositories
     public class ProgrammerRepository : BaseRepository<ProgrammerEntity>, IProgrammerRepository
     {
 
-        public ProgrammerRepository(DbContext context) : base(context)
+        public ProgrammerRepository(ApplicationDbContext context) : base(context)
         {
 
         }
