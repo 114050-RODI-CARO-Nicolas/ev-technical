@@ -1,10 +1,13 @@
 using EvoltisTechnical_BE.Data;
 using EvoltisTechnical_BE.Mappings;
+using EvoltisTechnical_BE.Models.DTOs.Programmer.Request;
 using EvoltisTechnical_BE.Repositories;
 using EvoltisTechnical_BE.Repositories.Interfaces;
 using EvoltisTechnical_BE.Services;
 using EvoltisTechnical_BE.Services.Interfaces;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,10 @@ builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 
 //Services
 builder.Services.AddScoped<IProgrammerService, ProgrammerService>();
+
+//Validators
+builder.Services.AddFluentValidation((options) =>
+    options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 
 
