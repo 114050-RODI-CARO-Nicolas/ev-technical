@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Mapping\" />
-    <Folder Include="Models\DTOs\Programmer\Request\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

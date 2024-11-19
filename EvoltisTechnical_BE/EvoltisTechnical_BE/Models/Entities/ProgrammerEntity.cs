@@ -16,6 +16,7 @@ namespace EvoltisTechnical_BE.Models.Entities
         [StringLength(50)]
         public string PhoneNumber { get; set; }
         [StringLength(100)]
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
         public ICollection<SkillEntity> Skills { get; set; }
