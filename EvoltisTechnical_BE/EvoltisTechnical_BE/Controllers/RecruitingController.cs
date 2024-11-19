@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EvoltisTechnical_BE.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/recruting")]
     public class RecruitingController : ControllerBase
     {
         private readonly IProgrammerService _programmerService;
