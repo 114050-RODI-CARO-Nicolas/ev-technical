@@ -19,6 +19,8 @@ namespace EvoltisTechnical_BE.Models.Entities
         [EmailAddress]
         public string EmailAddress { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         public ICollection<SkillEntity> Skills { get; set; }
 
         public ProgrammerEntity() { 

@@ -22,6 +22,7 @@ namespace EvoltisTechnical_BE.Repositories
 
         public async Task<T> AddAsync(T entity)
         {
+            entity.IsActive = true;
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
@@ -34,8 +35,10 @@ namespace EvoltisTechnical_BE.Repositories
             {
                 throw new Exception("Entity to be updated could not be found");
             }
+            entity.IsActive = foundEntity.IsActive;
 
             _context.Entry(foundEntity).CurrentValues.SetValues(entity);
+            foundEntity.LastUpdatedAt = DateTime.Now;
             await _context.SaveChangesAsync();
             return foundEntity;
         }
@@ -51,6 +54,29 @@ namespace EvoltisTechnical_BE.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<T> LogicalDeleteAysnc(int id)
+        {
+            var foundEntity = await _dbSet.FindAsync(id);
+            if (foundEntity == null)
+            {
+                throw new Exception("Entity to be deleted could not be found");
+            }
+
+            foundEntity.IsActive = false;
+            foundEntity.LastUpdatedAt = DateTime.Now; 
+
+            await _context.SaveChangesAsync();
+            return foundEntity;
+
+        }
+
+        
+
+        public async Task<IEnumerable<T>> GetAllActiveAsync()
+        {
+            return await _dbSet.Where(e=>e.IsActive).ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
@@ -61,6 +87,22 @@ namespace EvoltisTechnical_BE.Repositories
             return await _dbSet.FindAsync(id);
         }
 
-     
+        public async Task<T> LogicalDeleteAsync(int id)
+        {
+
+            var foundEntity = await _dbSet.FindAsync(id);  
+            if (foundEntity == null)
+            {
+                throw new Exception("Entity to be deleted could not be found");
+            }
+
+            foundEntity.IsActive = false;
+            foundEntity.LastUpdatedAt = DateTime.Now;  
+
+            await _context.SaveChangesAsync();
+            return foundEntity;
+
+        }
+
     }
 }

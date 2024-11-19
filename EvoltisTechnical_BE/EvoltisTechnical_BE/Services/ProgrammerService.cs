@@ -20,6 +20,19 @@ namespace EvoltisTechnical_BE.Services
             _mapper=mapper;
         }
 
+        public async Task<IEnumerable<ProgrammerDTO>> GetAllAsync()
+        {
+            var programmers = await _programmerRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ProgrammerDTO>>(programmers);
+        }
+
+
+        public async Task<IEnumerable<ProgrammerDTO>> GetAllActiveAsync()
+        {
+            var activeProgrammers = await _programmerRepository.GetAllActiveAsync();
+            return _mapper.Map<IEnumerable<ProgrammerDTO>>(activeProgrammers);
+        }
+
         public async Task<ProgrammerDetailDTO> CreateAsync(CreateProgrammerDTO createDTO)
         {
             var existingProgrammer = await _programmerRepository.GetByEmailAsync(createDTO.EmailAddress);
@@ -62,11 +75,16 @@ namespace EvoltisTechnical_BE.Services
             await _programmerRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<ProgrammerDTO>> GetAllAsync()
+        public async Task<ProgrammerDetailDTO> LogicalDeleteAsync(int id)
         {
-           var programmers = await _programmerRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<ProgrammerDTO>>(programmers);
+            var programmer = await _programmerRepository.GetAsync(id);
+            if (programmer == null)
+                throw new KeyNotFoundException($"Programmer with ID {id} not found");
+
+            var deletedProgrammer = await _programmerRepository.LogicalDeleteAsync(id);
+            return _mapper.Map<ProgrammerDetailDTO>(deletedProgrammer);
         }
+
 
         public async Task<ProgrammerDetailDTO> GetByEmailAsync(string email)
         {

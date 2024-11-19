@@ -9,6 +9,8 @@
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
+        public bool IsActive { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
 
