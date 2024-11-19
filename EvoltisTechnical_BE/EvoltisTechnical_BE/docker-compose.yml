@@ -36,6 +36,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: evoltis-technical-be
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5000:80"
     depends_on:

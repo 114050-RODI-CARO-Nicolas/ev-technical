@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:80");
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -44,6 +45,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+Console.WriteLine($"Running in {builder.Environment.EnvironmentName} environment");
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -51,7 +55,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (app.Environment.IsProduction())
+{
+    app.UseHttpsRedirection();
+}
+
 
 app.UseAuthorization();
 
