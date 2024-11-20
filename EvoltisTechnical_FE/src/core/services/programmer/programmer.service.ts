@@ -16,6 +16,9 @@ export class ProgrammerService {
   private http: HttpClient = inject(HttpClient);
 
 
+  
+
+
     getAllProgrammers(): Observable<ProgrammerResponseDTO[]> {
       return this.http.get<ProgrammerResponseDTO[]>(`${this.baseUrl}/programmers`);
     }
