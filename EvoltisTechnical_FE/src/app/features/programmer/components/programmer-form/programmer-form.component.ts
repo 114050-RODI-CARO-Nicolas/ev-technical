@@ -38,6 +38,10 @@ export class ProgrammerFormComponent implements OnInit {
    
 
   constructor(private fb: FormBuilder, private store: Store, private route: ActivatedRoute, private router: Router){
+    const routeMode = this.route.snapshot.data['mode'];
+    if(routeMode){
+      this.mode = routeMode as FormMode;
+    }
     this.skills$=this.store.select(selectSkills);
     this.loading$=this.store.select(selectProgrammersLoading);
     this.currentProgrammer$=this.store.select(selectProgrammerById(this.route.snapshot.params['id']));
