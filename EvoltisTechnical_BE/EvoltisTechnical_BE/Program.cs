@@ -10,7 +10,16 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://0.0.0.0:80");
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.WebHost.UseUrls("http://localhost:5000", "https://localhost:5001");
+}
+else
+{
+    builder.WebHost.UseUrls("http://0.0.0.0:80");
+}
+
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -33,6 +42,17 @@ builder.Services.AddFluentValidation((options) =>
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
+
 // Add services to the container.
 
 
@@ -49,16 +69,18 @@ Console.WriteLine($"Running in {builder.Environment.EnvironmentName} environment
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+   
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+} 
 
-if (app.Environment.IsProduction())
+else if (app.Environment.IsProduction())
 {
     app.UseHttpsRedirection();
 }
 
 
+app.UseCors("AllowAllOrigins");
 app.UseAuthorization();
 
 app.MapControllers();

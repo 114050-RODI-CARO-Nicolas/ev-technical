@@ -114,7 +114,7 @@ namespace EvoltisTechnical_BE.Services
             {
                 var programmerWithEmail = await _programmerRepository.GetByEmailAsync(updateDTO.EmailAddress);
                 if(programmerWithEmail != null)
-                {
+                
                     throw new InvalidOperationException($"Email {updateDTO.EmailAddress} is already in use");
                 }
 
@@ -138,7 +138,7 @@ namespace EvoltisTechnical_BE.Services
                         existingProgrammer.Skills.Add(skill);
                     }
                 }
-            }
+            
             var updatedProgrammer = await _programmerRepository.UpdateAsync(id, existingProgrammer);
             return _mapper.Map<ProgrammerDetailDTO>(updatedProgrammer);
 
