@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { ProgrammerState } from "../models/programmer.model";
-import { AppState } from "../app.state";
+
 
 export const selectProgrammerState = createFeatureSelector<ProgrammerState>('programmers');
 

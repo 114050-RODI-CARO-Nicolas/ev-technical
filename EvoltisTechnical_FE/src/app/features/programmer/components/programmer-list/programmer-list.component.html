@@ -1,0 +1,35 @@
+<p-card header="Lista de Candidatos">
+    <p-table
+    [value]="(programmers$ | async ) ?? []"
+    [loading]="loading$ | async"
+    [paginator]="true"
+    [rows]="10"
+    styleClass="p-datatable-gridlines">
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-programmer>
+        <tr>
+            <td>{{programmer.firstName}}</td>
+            <td>{{programmer.lastName}}</td>
+            <td>{{programmer.emailAdress}}</td>
+            <td>{{programmer.phoneNumber}}</td>
+            <td>
+                <p-button
+                    [severity]="programmer.isActive ? 'success' : 'danger' "
+                    [label]="programmer.isActive ? 'Activo' : 'Inactivo' "
+                    [text]="true">
+                </p-button>
+            </td>
+        </tr>
+    </ng-template>
+    </p-table>
+
+</p-card>

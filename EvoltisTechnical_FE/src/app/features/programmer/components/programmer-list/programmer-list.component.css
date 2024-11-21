@@ -1,0 +1,13 @@
+:host {
+    display: block;
+}
+
+:host ::ng-deep .p-card {
+    margin: 1rem;
+}
+
+:host ::ng-deep .p-card .p-card-header {
+    padding: 1rem;
+    background-color: var(--surface-section);
+    border-bottom: 1px solid var(--surface-border);
+}

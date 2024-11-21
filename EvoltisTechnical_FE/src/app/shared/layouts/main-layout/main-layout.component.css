@@ -1,0 +1,10 @@
+.layout-wrapper{
+    min-height: 100vh;
+    background-color: var(--surface-ground);
+}
+
+.layout-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
