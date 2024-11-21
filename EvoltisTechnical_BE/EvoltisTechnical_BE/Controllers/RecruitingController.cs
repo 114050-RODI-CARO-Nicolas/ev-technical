@@ -92,7 +92,7 @@ namespace EvoltisTechnical_BE.Controllers
         /// </summary>
         /// <param name="createDTO"></param>
 
-        [HttpPost]
+        [HttpPost("programmers")]
         public async Task<ActionResult<ProgrammerDetailDTO>> CreateProgrammer([FromBody] CreateProgrammerDTO createDTO)
         {
             try
@@ -122,7 +122,7 @@ namespace EvoltisTechnical_BE.Controllers
         /// <param name="id"></param>
         /// <param name="updateDTO"></param>
 
-        [HttpPut("{id}")]
+        [HttpPut("programmers/{id}")]
         public async Task<ActionResult<ProgrammerDetailDTO>> UpdateProgrammer(int id, [FromBody] UpdateProgrammerDTO updateDTO )
         {
             try

@@ -11,6 +11,7 @@ namespace EvoltisTechnical_BE.Services.Interfaces
         Task<ProgrammerDetailDTO> GetByEmailAsync(string email);
         Task<ProgrammerDetailDTO> CreateAsync(CreateProgrammerDTO createDTO);
         Task<ProgrammerDetailDTO> UpdateAysnc(int id, UpdateProgrammerDTO updateDTO);
+
         Task DeleteAsync(int id);
         Task<ProgrammerDetailDTO> LogicalDeleteAsync(int id);
 

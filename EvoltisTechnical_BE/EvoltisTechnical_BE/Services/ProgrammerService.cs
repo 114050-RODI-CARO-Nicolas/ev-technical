@@ -102,47 +102,57 @@ namespace EvoltisTechnical_BE.Services
             return _mapper.Map<ProgrammerDetailDTO>(programmer);
         }
 
-
         public async Task<ProgrammerDetailDTO> UpdateAysnc(int id, UpdateProgrammerDTO updateDTO)
         {
-            var existingProgrammer = await _programmerRepository.GetAsync(id);
+            var existingProgrammer = await _programmerRepository.GetWithSkillsAsync(id);
             if (existingProgrammer == null)
                 throw new KeyNotFoundException($"Programmer to be updated with ID {id} not found");
-            
-            if(!string.IsNullOrEmpty(updateDTO.EmailAddress) && 
+
+            if (!string.IsNullOrEmpty(updateDTO.EmailAddress) &&
                 updateDTO.EmailAddress != existingProgrammer.EmailAddress)
             {
                 var programmerWithEmail = await _programmerRepository.GetByEmailAsync(updateDTO.EmailAddress);
-                if(programmerWithEmail != null)
-                
+                if (programmerWithEmail != null)
                     throw new InvalidOperationException($"Email {updateDTO.EmailAddress} is already in use");
-                }
+            }
 
-                if(!string.IsNullOrEmpty(updateDTO.FirstName))
-                    existingProgrammer.FirstName = updateDTO.FirstName;
-                if(!string.IsNullOrEmpty(updateDTO.LastName))
-                    existingProgrammer.LastName = updateDTO.LastName;
-                if (!string.IsNullOrEmpty(updateDTO.PhoneNumber))
-                    existingProgrammer.PhoneNumber = updateDTO.PhoneNumber;
-                if (!string.IsNullOrEmpty(updateDTO.EmailAddress))
-                    existingProgrammer.EmailAddress = updateDTO.EmailAddress;
+           
+            if (!string.IsNullOrEmpty(updateDTO.FirstName))
+                existingProgrammer.FirstName = updateDTO.FirstName;
+            if (!string.IsNullOrEmpty(updateDTO.LastName))
+                existingProgrammer.LastName = updateDTO.LastName;
+            if (!string.IsNullOrEmpty(updateDTO.PhoneNumber))
+                existingProgrammer.PhoneNumber = updateDTO.PhoneNumber;
+            if (!string.IsNullOrEmpty(updateDTO.EmailAddress))
+                existingProgrammer.EmailAddress = updateDTO.EmailAddress;
 
-                if(updateDTO.SkillIds != null)
+            if (updateDTO.SkillIds != null)
+            {
+               
+                foreach (var skillId in updateDTO.SkillIds)
                 {
-                    existingProgrammer.Skills.Clear();
-                    foreach( var skillId in updateDTO.SkillIds)
-                    {
-                        var skill = await _skillRepository.GetAsync(skillId);
-                        if (skill == null)
-                            throw new KeyNotFoundException($"Skill with ID {skillId} not found");
-                        existingProgrammer.Skills.Add(skill);
-                    }
+                    var skill = await _skillRepository.GetAsync(skillId);
+                    if (skill == null)
+                        throw new KeyNotFoundException($"Skill with ID {skillId} not found");
                 }
-            
-            var updatedProgrammer = await _programmerRepository.UpdateAsync(id, existingProgrammer);
-            return _mapper.Map<ProgrammerDetailDTO>(updatedProgrammer);
 
-        
+               
+                var updatedProgrammer = await _programmerRepository.UpdateWithSkillsAsync(
+                    id,
+                    existingProgrammer,
+                    updateDTO.SkillIds);
+
+                return _mapper.Map<ProgrammerDetailDTO>(updatedProgrammer);
+            }
+            else
+            {
+                
+                var updatedProgrammer = await _programmerRepository.UpdateAsync(id, existingProgrammer);
+                return _mapper.Map<ProgrammerDetailDTO>(updatedProgrammer);
+            }
         }
+
+
+
     }
 }
