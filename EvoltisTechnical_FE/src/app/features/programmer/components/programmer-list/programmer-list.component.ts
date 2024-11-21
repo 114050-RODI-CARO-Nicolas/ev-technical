@@ -5,7 +5,7 @@ import {CardModule} from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { deleteProgrammer, loadProgrammers } from '../../../../../core/store/actions/programmer.action';
-import { selectAllProgrammers, selectProgrammersLoading } from '../../../../../core/store/selectors/programmer.selectors';
+import { selectAllProgrammers, selectListLoading, selectProgrammersLoading } from '../../../../../core/store/selectors/programmer.selectors';
 
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class ProgrammerListComponent implements OnInit {
 
   constructor(private store: Store<AppState>, private router: Router, private confirmationService: ConfirmationService) {
     this.programmers$ = this.store.select(selectAllProgrammers);
-    this.loading$ = this.store.select(selectProgrammersLoading);
+    this.loading$ = this.store.select(selectListLoading);
   }
   
   ngOnInit(): void {

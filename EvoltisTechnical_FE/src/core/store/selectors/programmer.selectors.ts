@@ -39,3 +39,26 @@ export const selectCreateSuccess = createSelector(
 
 
 
+
+
+export const selectLoadingState = (state: AppState) => state.programmer.loading;
+
+export const selectCreateLoading = createSelector(
+    selectLoadingState,
+    loading => loading.create
+);
+
+export const selectUpdateLoading = createSelector(
+    selectLoadingState,
+    loading => loading.update
+);
+
+export const selectListLoading = createSelector(
+    selectLoadingState,
+    loading => loading.list
+);
+
+export const selectSkillsLoading = createSelector(
+    selectLoadingState,
+    loading => loading.skills
+);

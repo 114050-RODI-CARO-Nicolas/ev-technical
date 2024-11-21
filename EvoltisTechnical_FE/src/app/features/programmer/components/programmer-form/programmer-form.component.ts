@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { AsyncPipe } from '@angular/common';
 import { loadSkills, createProgrammer, updateProgrammer } from '../../../../../core/store/actions/programmer.action';
-import { selectSkills, selectProgrammersLoading, selectProgrammerById, selectCreateSuccess } from '../../../../../core/store/selectors/programmer.selectors';
+import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../../../../core/store/app.state';
 
@@ -30,7 +30,8 @@ export class ProgrammerFormComponent implements OnInit {
  
   candidateForm!: FormGroup;
   skills$;
-  loading$;
+  skillsLoading$;
+  createLoading$;
   currentProgrammer$;
 
   constructor(private fb: FormBuilder, private store: Store<AppState>, private route: ActivatedRoute, private router: Router){
@@ -39,7 +40,8 @@ export class ProgrammerFormComponent implements OnInit {
       this.mode = routeMode as FormMode;
     }
     this.skills$=this.store.select(selectSkills);
-    this.loading$=this.store.select(selectProgrammersLoading);
+    this.skillsLoading$=this.store.select(selectSkillsLoading)
+    this.createLoading$=this.store.select(selectCreateLoading);
     this.currentProgrammer$=this.store.select(selectProgrammerById(this.route.snapshot.params['id']));
     this.initForm();
   }

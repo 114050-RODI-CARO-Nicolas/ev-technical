@@ -3,7 +3,13 @@ import { Skill } from "../../../app/features/programmer/models/skill";
 export interface ProgrammerState{
     programmers: ProgrammerResponseDTO[];
     skills: Skill[];
-    loading: boolean;
+    loading: {
+        skills: boolean;
+        create: boolean;
+        update: boolean;
+        delete: boolean;
+        list: boolean
+    }
     error: string | null;
     createSuccess: boolean
 }
