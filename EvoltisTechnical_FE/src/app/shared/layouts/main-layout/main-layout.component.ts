@@ -14,17 +14,17 @@ export class MainLayoutComponent {
 
   items: MenuItem[] = [
     {
-      label: 'Programadores',
+      label: 'Candidatos',
       items: [
         {
-          label: 'Nuevo Programador',
+          label: 'Nuevo Candidato',
           icon: 'pi pi-plus',
-          routerLink: '/programmers/new'
+          routerLink: '/candidates/new'
         },
         {
-          label: 'Lista de Programadores',
+          label: 'Lista de Candidatos',
           icon: 'pi pi-list',
-          routerLink: '/programmers/list'
+          routerLink: '/candidates/list'
         }
       ]
     }

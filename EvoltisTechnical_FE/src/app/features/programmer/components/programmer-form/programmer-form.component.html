@@ -1,5 +1,5 @@
 <p-card [header]="mode === 'create' ? 'Nuevo candidato' : mode==='edit' ? 'Editar datos de candidato' : 'Detalles de candidato' ">
-    <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
         <div class="grid">
             <div class="col-12 md:col-6">
                 <span class="p-float-label">

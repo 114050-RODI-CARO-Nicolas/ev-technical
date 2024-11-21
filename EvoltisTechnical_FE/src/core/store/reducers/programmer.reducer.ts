@@ -27,19 +27,6 @@ export const programmerReducer = createReducer(
       loading: false,
       error,
     })),
-    on(ProgrammerActions.createProgrammerSuccess, (state, {programmer}) =>({
-      ...state,
-      loading: false,
-      programmers: [...state.programmers, programmer],
-      createSuccess: true
-    })),
-    on(ProgrammerActions.createProgrammerFailure, (state, {error})=> ({
-      ...state,
-      loading: false,
-      error,
-      createSuccess: false
-    })),
-
     on(ProgrammerActions.loadSkills, (state)=> ({
       ...state,
       loading: true,
@@ -110,6 +97,8 @@ export const programmerReducer = createReducer(
 
   );
 
+  export const reducer = programmerReducer;
+
 
 /*
   export function reducer(state: ProgrammerState | undefined, action: any) {
@@ -117,5 +106,5 @@ export const programmerReducer = createReducer(
   }
 */
 
-export const reducer = programmerReducer;
+
 

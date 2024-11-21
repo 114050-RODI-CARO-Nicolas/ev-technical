@@ -9,6 +9,7 @@ import { AsyncPipe } from '@angular/common';
 import { loadSkills, createProgrammer, updateProgrammer } from '../../../../../core/store/actions/programmer.action';
 import { selectSkills, selectProgrammersLoading, selectProgrammerById, selectCreateSuccess } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppState } from '../../../../../core/store/app.state';
 
 
 type FormMode = 'create' | 'edit' | 'view';
@@ -22,8 +23,6 @@ type FormMode = 'create' | 'edit' | 'view';
 })
 
 
-
-
 export class ProgrammerFormComponent implements OnInit {
 
   @Input() mode : FormMode = 'create';
@@ -34,10 +33,7 @@ export class ProgrammerFormComponent implements OnInit {
   loading$;
   currentProgrammer$;
 
-  
-   
-
-  constructor(private fb: FormBuilder, private store: Store, private route: ActivatedRoute, private router: Router){
+  constructor(private fb: FormBuilder, private store: Store<AppState>, private route: ActivatedRoute, private router: Router){
     const routeMode = this.route.snapshot.data['mode'];
     if(routeMode){
       this.mode = routeMode as FormMode;
@@ -63,7 +59,6 @@ export class ProgrammerFormComponent implements OnInit {
   
   };
 
-
   ngOnInit(): void {
     this.store.dispatch(loadSkills());
     if(this.mode !== 'create'){
@@ -74,7 +69,6 @@ export class ProgrammerFormComponent implements OnInit {
       });
     }
   };
-
 
 
   onSubmit(){
@@ -90,7 +84,7 @@ export class ProgrammerFormComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/programmers/list']);
+    this.router.navigate(['/candidates/list']);
   }
 
 }

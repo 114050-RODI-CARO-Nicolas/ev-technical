@@ -1,38 +1,41 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { ProgrammerState } from "../models/programmer.model";
+import { AppState } from "../app.state";
 
 
-export const selectProgrammerState = createFeatureSelector<ProgrammerState>('programmers');
+export const selectProgrammerFeature = (state : AppState) => state.programmer;
 
 export const selectAllProgrammers = createSelector(
-    selectProgrammerState,
+    selectProgrammerFeature,
     (state: ProgrammerState) => state.programmers
 );
 
 export const selectProgrammersLoading = createSelector(
-    selectProgrammerState,
-    (state: ProgrammerState) => state.loading
+    selectProgrammerFeature,
+   (state: ProgrammerState) => state.loading
 
 );
 
 export const selectProgrammersError = createSelector(
-    selectProgrammerState,
+    selectProgrammerFeature,
     (state: ProgrammerState) => state.error
-);
-
-export const selectSkills = createSelector(
-    selectProgrammerState,
-    (state: ProgrammerState) => state.skills
-);
-
-export const selectCreateSuccess = createSelector(
-    selectProgrammerState,
-    (state: ProgrammerState) => state.createSuccess
 );
 
 export const selectProgrammerById = (id: number) => createSelector(
     selectAllProgrammers,
     (programmers) => programmers.find(p=> p.id === id)
-)
+);
+
+export const selectSkills = createSelector(
+    selectProgrammerFeature,
+    (state: ProgrammerState) => state.skills
+);
+
+export const selectCreateSuccess = createSelector(
+    selectProgrammerFeature,
+    (state: ProgrammerState) => state.createSuccess
+);
+
+
 
 
