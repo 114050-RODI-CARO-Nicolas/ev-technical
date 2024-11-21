@@ -10,6 +10,7 @@ import { loadSkills, createProgrammer, updateProgrammer, loadProgrammers, loadPr
 import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading, selectCurrentProgrammer } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../../../../core/store/app.state';
+import { take } from 'rxjs';
 
 
 type FormMode = 'create' | 'edit' | 'view';
@@ -62,21 +63,31 @@ export class ProgrammerFormComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.store.dispatch(loadSkills());
+    
    
     if(this.mode !== 'create') {
-      this.store.dispatch(loadProgrammers());
       const id = Number(this.route.snapshot.params['id']);
-      this.store.dispatch(loadProgrammerById({id}));
-      this.currentProgrammer$.subscribe(programmer => {
-        if(programmer) {
-          this.candidateForm.patchValue({
-            ...programmer,
-            skillIds: programmer.skills?.map(s=> s.id ) || [] 
-          });
+      this.store.dispatch(loadSkills());
+      this.skills$.pipe(take(1)).subscribe(skills => {
+        if(skills.length >0){
+          this.store.dispatch(loadProgrammerById({id}));
+          this.currentProgrammer$.subscribe(programmer => {
+            if(programmer) {
+              this.candidateForm.patchValue({
+                ...programmer,
+                skillIds: programmer.skills?.map(s=> s.id ) || [] 
+              });
+            }
+          })
         }
       })
+   
+      
+      
+  
     
+    } else {
+      this.store.dispatch(loadSkills());
     }
 
 
