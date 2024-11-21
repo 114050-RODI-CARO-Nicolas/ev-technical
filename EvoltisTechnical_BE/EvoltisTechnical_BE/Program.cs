@@ -26,16 +26,14 @@ builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 
 //Services
 builder.Services.AddScoped<IProgrammerService, ProgrammerService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
 
 //Validators
 builder.Services.AddFluentValidation((options) =>
     options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 
-
-
 // Add services to the container.
-
 
 
 builder.Services.AddControllers();

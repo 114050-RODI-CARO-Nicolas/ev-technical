@@ -1,21 +1,36 @@
 ﻿using EvoltisTechnical_BE.Models.DTOs.Programmer.Request;
 using EvoltisTechnical_BE.Models.DTOs.Programmer.Response;
+using EvoltisTechnical_BE.Models.DTOs.Skill.Response;
 using EvoltisTechnical_BE.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EvoltisTechnical_BE.Controllers
 {
     [ApiController]
-    [Route("api/recruting")]
+    [Route("api/recruiting")]
     public class RecruitingController : ControllerBase
     {
         private readonly IProgrammerService _programmerService;
+        private readonly ISkillService _skillService;
         private readonly ILogger<RecruitingController> _logger;
 
-        public RecruitingController(IProgrammerService programmerService, ILogger<RecruitingController> logger)
+        public RecruitingController(IProgrammerService programmerService, ISkillService skillService, ILogger<RecruitingController> logger)
         {
             _programmerService=programmerService;
+            _skillService = skillService;
             _logger=logger;
+        }
+
+        /// <summary>
+        /// Get available skills regarding a programmer recruiting process
+        /// </summary>
+     
+
+        [HttpGet("skills")]
+        public async Task<ActionResult<IEnumerable<SkillDTO>>> GetAllSkills()
+        {
+            var skills = await _skillService.GetAllAsync();
+            return Ok(skills);
         }
 
         /// <summary>
