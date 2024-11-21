@@ -20,5 +20,10 @@ namespace EvoltisTechnical_BE.Repositories
 
             return await GetDbSet().FirstOrDefaultAsync(x => x.EmailAddress == email);
         }
+
+        public async Task<ProgrammerEntity> GetWithSkillsAsync(int id)
+        {
+            return await GetDbSet().Include(p=> p.Skills).FirstOrDefaultAsync(p=> p.Id == id);
+        }
     }
 }

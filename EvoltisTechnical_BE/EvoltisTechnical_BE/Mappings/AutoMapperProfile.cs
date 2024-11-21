@@ -11,7 +11,10 @@ namespace EvoltisTechnical_BE.Mappings
         public AutoMapperProfile() {
 
             CreateMap<ProgrammerEntity, ProgrammerDTO>();
-            CreateMap<ProgrammerEntity, ProgrammerDetailDTO>();
+            CreateMap<ProgrammerEntity, ProgrammerDetailDTO>()
+                .ForMember(dest => dest.Skills,
+                    opt => opt.MapFrom(src => src.Skills)
+                ).IncludeBase<ProgrammerEntity, ProgrammerDTO>();
             CreateMap<CreateProgrammerDTO, ProgrammerEntity>()
                 .ForMember(dest => dest.Skills, opt => opt.Ignore());
             CreateMap<UpdateProgrammerDTO, ProgrammerEntity>()

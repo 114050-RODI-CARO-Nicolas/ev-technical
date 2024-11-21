@@ -96,7 +96,7 @@ namespace EvoltisTechnical_BE.Services
 
         public async Task<ProgrammerDetailDTO> GetByIdAsync(int id)
         {
-            var programmer = await _programmerRepository.GetAsync(id);
+            var programmer = await _programmerRepository.GetWithSkillsAsync(id);
             if (programmer == null)
                 throw new KeyNotFoundException($"Programmer with ID {id} not found.");
             return _mapper.Map<ProgrammerDetailDTO>(programmer);
