@@ -89,6 +89,23 @@ export const programmerReducer = createReducer(
       ...state,
       loading: false,
       error
+    })),
+    on(ProgrammerActions.deleteProgrammer, (state)=> ({
+      ...state,
+      loading: true,
+      error: null
+    })),
+    on(ProgrammerActions.deleteProgrammerSuccess, (state, {programmer})=> ({
+      ...state,
+      loading: false,
+      programmers: state.programmers.map(p=>
+        p.id === programmer.id ? programmer : p
+      )
+    })),
+    on(ProgrammerActions.deleteProgrammerFailure, (state, {error})=> ({
+      ...state,
+      loading: false,
+      error
     }))
 
   );

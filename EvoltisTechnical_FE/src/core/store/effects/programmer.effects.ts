@@ -77,6 +77,24 @@ updateProgrammer$ = createEffect(()=>
     )
 )
 
+deleteProgrammer$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(ProgrammerActions.deleteProgrammer),
+        mergeMap(({ id }) =>
+            this.programmerService.deleteProgrammer(id).pipe(
+                map(programmer => 
+                    ProgrammerActions.deleteProgrammerSuccess({ programmer })),
+                catchError(error => 
+                    of(ProgrammerActions.deleteProgrammerFailure({ 
+                        error: error.message 
+                    })))
+            )
+        )
+    )
+);
+
+
+
 
 
 

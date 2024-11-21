@@ -72,6 +72,24 @@ export const updateProgrammerFailure = createAction(
     props<{ error: string}>()
 )
 
+//Deactivate (actually logically delete) a programmer/candidate
+export const deleteProgrammer = createAction(
+    '[Programmer] Delete Programmer',
+    props<{id: number}>()
+);
+
+export const deleteProgrammerSuccess = createAction(
+    '[Programmer] Delete Programmer Success',
+    props<{programmer: ProgrammerDetailDTO}>()
+);
+
+export const deleteProgrammerFailure = createAction(
+    '[Programmer] Delete Programmer Failure',
+    props<{error: string}>()
+);
+
+
+
 
 
 

@@ -13,6 +13,7 @@
             <th>Email</th>
             <th>Teléfono</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-programmer>
@@ -27,6 +28,28 @@
                     [label]="programmer.isActive ? 'Activo' : 'Inactivo' "
                     [text]="true">
                 </p-button>
+            </td>
+            <td class="flex gap-2">
+                <p-button
+                    icon="pi pi-eye"
+                    severity="info"
+                    [text]="true"
+                    tooltipPosition="top"
+                    tooltip="Ver detalles"
+                    (onClick)="onView(programmer.id)"
+                >
+                </p-button>
+
+                <p-button
+                icon="pi pi-pencil"
+                severity="warning"
+                [text]="true"
+                tooltipPosition="top"
+                tooltip="Editar"
+                (onClick)="onEdit(programmer.id)"
+                >
+                </p-button>
+
             </td>
         </tr>
     </ng-template>
