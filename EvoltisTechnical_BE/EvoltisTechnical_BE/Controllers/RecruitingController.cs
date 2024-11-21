@@ -149,7 +149,7 @@ namespace EvoltisTechnical_BE.Controllers
         /// <param name="id"></param>
  
 
-        [HttpDelete("programmers/delete/${id}")]
+        [HttpDelete("programmers/{id}")]
         public async Task<ActionResult<ProgrammerDetailDTO>> DeleteProgrammer(int id)
         {
             try
