@@ -1,7 +1,31 @@
 <p-confirmDialog></p-confirmDialog>
 <p-card header="Lista de Candidatos">
+    <div class="flex justify-content-between align-items-center mb-3">
+        <div class="flex align-items-center gap-3">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input 
+                    pInputText
+                    type="text"
+                    [(ngModel)]="globalFilter"
+                    (ngModelChange)="onGlobalFilterChange($event)"
+                    placeholder="Buscar por nombre o apellido"
+                />
+            </span>
+
+            <p-selectButton [options]="[
+                {label: 'Todos', value: null},
+                {label: 'Activos', value: true},
+                {label: 'Inactivos', value: false}
+            ]" [(ngModel)]="statusFilter" (ngModelChange)="onStatusChange($event)" optionLabel="label" optionValue="value" >
+
+            </p-selectButton>
+
+        </div>
+
+    </div>
     <p-table
-    [value]="(programmers$ | async ) ?? []"
+    [value]="(filteredProgrammers$ | async ) ?? []"
     [loading]="loading$ | async"
     [paginator]="true"
     [rows]="10"
