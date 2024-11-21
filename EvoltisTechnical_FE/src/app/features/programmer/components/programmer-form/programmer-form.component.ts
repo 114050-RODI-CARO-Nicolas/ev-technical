@@ -7,18 +7,19 @@ import { ButtonModule } from 'primeng/button';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { AsyncPipe } from '@angular/common';
 import { loadSkills, createProgrammer, updateProgrammer, loadProgrammers, loadProgrammerById } from '../../../../../core/store/actions/programmer.action';
-import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading, selectCurrentProgrammer } from '../../../../../core/store/selectors/programmer.selectors';
+import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading, selectCurrentProgrammer, selectUpdateSuccess, selectError } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../../../../core/store/app.state';
-import { take } from 'rxjs';
-
-
+import { combineLatest, filter, take, timer } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import {ToastModule} from 'primeng/toast' 
 type FormMode = 'create' | 'edit' | 'view';
 
 @Component({
   selector: 'app-programmer-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CardModule, InputTextModule, ButtonModule, MultiSelectModule, AsyncPipe],
+  imports: [ReactiveFormsModule, CardModule, InputTextModule, ButtonModule, MultiSelectModule, ToastModule, AsyncPipe],
+  providers: [MessageService],
   templateUrl: './programmer-form.component.html',
   styleUrl: './programmer-form.component.css'
 })
@@ -35,7 +36,7 @@ export class ProgrammerFormComponent implements OnInit {
   createLoading$;
   currentProgrammer$;
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>, private route: ActivatedRoute, private router: Router){
+  constructor(private fb: FormBuilder, private store: Store<AppState>, private route: ActivatedRoute, private router: Router, private messageService: MessageService){
     const routeMode = this.route.snapshot.data['mode'];
     if(routeMode){
       this.mode = routeMode as FormMode;
@@ -45,6 +46,41 @@ export class ProgrammerFormComponent implements OnInit {
     this.createLoading$=this.store.select(selectCreateLoading);
     this.currentProgrammer$=this.store.select(selectCurrentProgrammer);
     this.initForm();
+
+      combineLatest([
+        this.store.select(selectCreateSuccess),
+        this.store.select(selectUpdateSuccess)
+    ]).subscribe(([createSuccess, updateSuccess]) => {
+        if (createSuccess || updateSuccess) {
+            this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: createSuccess 
+                    ? 'Candidato creado correctamente' 
+                    : 'Candidato actualizado correctamente'
+            });
+            
+            timer(5000).pipe(take(1)).subscribe(() => {
+                this.router.navigate(['/candidates/list']);
+            });
+        }
+    });
+
+      this.store.select(selectError).subscribe(error => {
+          if (error) {
+              this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: error
+              });
+          }
+      });
+
+    
+
+    
+
+
   }
 
   private initForm(){
@@ -63,36 +99,31 @@ export class ProgrammerFormComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    
-   
     if(this.mode !== 'create') {
-      const id = Number(this.route.snapshot.params['id']);
-      this.store.dispatch(loadSkills());
-      this.skills$.pipe(take(1)).subscribe(skills => {
-        if(skills.length >0){
-          this.store.dispatch(loadProgrammerById({id}));
-          this.currentProgrammer$.subscribe(programmer => {
-            if(programmer) {
-              this.candidateForm.patchValue({
+        const id = Number(this.route.snapshot.params['id']);
+
+        this.store.dispatch(loadSkills());
+        this.store.dispatch(loadProgrammerById({id}));
+
+        combineLatest([
+            this.skills$.pipe(
+                filter(skills => skills.length > 0),
+                take(1)
+            ),
+            this.currentProgrammer$.pipe(
+                filter(programmer => !!programmer),
+                take(1)
+            )
+        ]).subscribe(([skills, programmer]) => {
+            this.candidateForm.patchValue({
                 ...programmer,
-                skillIds: programmer.skills?.map(s=> s.id ) || [] 
-              });
-            }
-          })
-        }
-      })
-   
-      
-      
-  
-    
+                skillIds: programmer.skills?.map(s => s.id) || []
+            });
+        });
     } else {
-      this.store.dispatch(loadSkills());
+        this.store.dispatch(loadSkills());
     }
-
-
-  
-  };
+}
 
 
 
