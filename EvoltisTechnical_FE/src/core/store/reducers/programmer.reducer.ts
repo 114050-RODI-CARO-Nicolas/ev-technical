@@ -54,6 +54,41 @@ export const programmerReducer = createReducer(
       ...state,
       loading: false,
       error
+    })),
+    on(ProgrammerActions.createProgrammer, (state)=> ({
+      ...state,
+      loading: true,
+      error: null,
+      createSuccess: false
+    })),
+    on(ProgrammerActions.createProgrammerSuccess, (state, {programmer})=> ({
+      ...state,
+      loading: false,
+      programmers: [...state.programmers, programmer],
+      createSuccess: true
+    })),
+    on(ProgrammerActions.createProgrammerFailure, (state, {error})=> ({
+      ...state,
+      loading: false,
+      error,
+      createSuccess: false
+    })),
+    on(ProgrammerActions.updateProgrammer, (state)=> ({
+      ...state,
+      loading: true,
+      error: null
+    })),
+    on(ProgrammerActions.updateProgrammerSuccess, (state, {programmer}) => ({
+      ...state,
+      loading: false,
+      programmers: state.programmers.map(p=>
+        p.id === programmer.id ? programmer : p
+      )
+    })),
+    on(ProgrammerActions.updateProgrammerFailure, (state, {error}) => ({
+      ...state,
+      loading: false,
+      error
     }))
 
   );

@@ -30,4 +30,9 @@ export const selectCreateSuccess = createSelector(
     (state: ProgrammerState) => state.createSuccess
 );
 
+export const selectProgrammerById = (id: number) => createSelector(
+    selectAllProgrammers,
+    (programmers) => programmers.find(p=> p.id === id)
+)
+
 

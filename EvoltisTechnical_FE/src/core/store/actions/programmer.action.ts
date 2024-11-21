@@ -4,6 +4,27 @@ import { CreateProgrammerDTO } from '../../../app/features/programmer/models/cre
 import { ProgrammerDetailDTO } from '../../../app/features/programmer/models/programmer-detail-dto';
 import { Skill } from '../../../app/features/programmer/models/skill';
 
+
+
+
+//Action fetch skills for populating skills multiselect
+export const loadSkills = createAction(
+    '[Programmer] Load Skills'
+);
+
+export const loadSkillsSuccess = createAction(
+    '[Programmer] Load Skills Success',
+    props<{skills: Skill[]}>()
+)
+
+export const loadSkillsFailure = createAction(
+    '[Programmer] Load Skills Failure',
+    props<{error: string}>()
+)
+
+
+
+//Action fetch programmers to populate programmers/candidates table
 export const loadProgrammers = createAction('[Programmers] Load Programmers');
 
 export const loadProgrammersSuccess = createAction(
@@ -17,6 +38,8 @@ export const loadProgrammersFailure = createAction(
 );
 
 
+
+//Create a new programmer/candidate actions
 export const createProgrammer = createAction(
     '[Programmer] Create Programmer',
     props<{programmer: CreateProgrammerDTO}>()
@@ -32,19 +55,25 @@ export const createProgrammerFailure = createAction(
     props<{error: string}>()
 );
 
-export const loadSkills = createAction(
-    '[Programmer] Load Skills'
+
+//Update a new programmer/candidate actions
+export const updateProgrammer = createAction(
+    '[Programmer] Update Programmer',
+    props<{id: number, programmer: Partial<CreateProgrammerDTO>}>()
 );
 
-export const loadSkillsSuccess = createAction(
-    '[Programmer] Load Skills Success',
-    props<{skills: Skill[]}>()
+export const updateProgrammerSuccess = createAction(
+    '[Programmer] Update Programmer Success',
+    props<{ programmer: ProgrammerDetailDTO }>()
+);
+
+export const updateProgrammerFailure = createAction(
+    '[Programmer] Update Programmer Failure',
+    props<{ error: string}>()
 )
 
-export const loadSkillsFailure = createAction(
-    '[Programmer] Load Skills Failure',
-    props<{error: string}>()
-)
+
+
 
 
 
