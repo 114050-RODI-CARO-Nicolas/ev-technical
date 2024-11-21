@@ -11,6 +11,7 @@ export class ProgrammerEffects {
 
     loadSkills$;
     loadProgrammers$;
+    loadProgrammerById$;
     createProgrammer$;
     updateProgrammer$;
     deleteProgrammer$;
@@ -43,6 +44,18 @@ export class ProgrammerEffects {
                         catchError(error =>
                             of(ProgrammerActions.loadProgrammersFailure({ error: error.message }))
                         )
+                    )
+                )
+            )
+        );
+
+        this.loadProgrammerById$ = createEffect(() =>
+            this.actions$.pipe(
+                ofType(ProgrammerActions.loadProgrammerById),
+                mergeMap(({ id }) =>
+                    this.programmerService.getProgrammerById(id).pipe(
+                        map(programmer => ProgrammerActions.loadProgrammerByIdSuccess({ programmer })),
+                        catchError(error => of(ProgrammerActions.loadProgrammerByIdFailure({ error: error.message })))
                     )
                 )
             )

@@ -23,7 +23,7 @@ export const selectProgrammersError = createSelector(
 
 export const selectProgrammerById = (id: number) => createSelector(
     selectAllProgrammers,
-    (programmers) => programmers.find(p=> p.id === id)
+    (programmers) => programmers.find(p=> p.id === Number(id))
 );
 
 export const selectSkills = createSelector(
@@ -34,6 +34,11 @@ export const selectSkills = createSelector(
 export const selectCreateSuccess = createSelector(
     selectProgrammerFeature,
     (state: ProgrammerState) => state.createSuccess
+);
+
+export const selectCurrentProgrammer = createSelector(
+    selectProgrammerFeature,
+    (state: ProgrammerState) => state.currentProgrammer
 );
 
 

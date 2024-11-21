@@ -38,11 +38,11 @@ export class ProgrammerListComponent implements OnInit {
 
   
   onView(id: number) {
-    this.router.navigate([`/programmers/${id}/view`]);
+    this.router.navigate([`/candidates/${id}/view`]);
   }
 
   onEdit(id: number){
-    this.router.navigate([`/programmers/${id}/edit`]);
+    this.router.navigate([`/candidates/${id}/edit`]);
   }
 
   onDeactivate(id: number) {

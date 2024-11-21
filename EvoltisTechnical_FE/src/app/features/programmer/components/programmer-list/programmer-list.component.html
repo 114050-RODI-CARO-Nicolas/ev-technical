@@ -50,7 +50,17 @@
                 (onClick)="onEdit(programmer.id)"
                 >
                 </p-button>
-
+                @if(programmer.isActive){
+                    <p-button
+                        icon="pi pi-times" 
+                        severity="danger" 
+                        [text]="true"
+                        tooltipPosition="top" 
+                        tooltip="Desactivar"
+                        (onClick)="onDeactivate(programmer.id)">
+                    >
+                    </p-button>
+                }
             </td>
         </tr>
     </ng-template>

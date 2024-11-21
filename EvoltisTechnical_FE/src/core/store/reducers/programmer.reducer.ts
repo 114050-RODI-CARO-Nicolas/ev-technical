@@ -13,7 +13,8 @@ const initialState : ProgrammerState= {
       list: false
     },
     error: null,
-    createSuccess: false
+    createSuccess: false,
+    currentProgrammer: null
 };
 
 export const programmerReducer = createReducer(
@@ -100,7 +101,24 @@ export const programmerReducer = createReducer(
       ...state,
       loading: {...state.loading, delete:false},
       error
-    }))
+    })),
+
+    on(ProgrammerActions.loadProgrammerByIdSuccess, (state, { programmer }) => ({
+      ...state,
+      loading: { ...state.loading, detail: false },
+      // Actualiza el programador en el array si existe
+      programmers: state.programmers.map(p => 
+          p.id === programmer.id ? programmer : p
+      ),
+      currentProgrammer: programmer
+  })),
+  
+  on(ProgrammerActions.loadProgrammerByIdFailure, (state, { error }) => ({
+      ...state,
+      loading: { ...state.loading, detail: false },
+      error,
+      currentProgrammer: null
+  }))
 
   );
 

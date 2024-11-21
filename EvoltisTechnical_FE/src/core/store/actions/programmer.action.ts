@@ -37,6 +37,26 @@ export const loadProgrammersFailure = createAction(
     props<{error: string}>()
 );
 
+//Action fetch a programmer by Id to get its detail
+
+export const loadProgrammerById = createAction(
+    '[Programmer] Load Programmer By Id',
+    props<{id: number}>()
+);
+
+export const loadProgrammerByIdSuccess = createAction(
+    '[Programmer] Load Programmer By Id Success',
+    props<{ programmer: ProgrammerDetailDTO }>()
+);
+
+export const loadProgrammerByIdFailure = createAction(
+    '[Programmer] Load Programmer By Id Failure',
+    props<{ error: string }>()
+);
+
+
+
+
 
 
 //Create a new programmer/candidate actions

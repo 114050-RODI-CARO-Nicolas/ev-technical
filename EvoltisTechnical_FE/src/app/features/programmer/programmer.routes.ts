@@ -29,7 +29,7 @@ export const PROGRAMMER_ROUTES : Routes = [
                     title: 'Editar datos de candidato'
             },
             {
-                path: ':/id/view',
+                path: ':id/view',
                 loadComponent: ()=> import('./components/programmer-form/programmer-form.component')
                     .then(m=>m.ProgrammerFormComponent),
                     data: {mode: 'view'},

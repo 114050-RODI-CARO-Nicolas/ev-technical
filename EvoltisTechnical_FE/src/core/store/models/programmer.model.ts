@@ -1,3 +1,4 @@
+import { ProgrammerDetailDTO } from "../../../app/features/programmer/models/programmer-detail-dto";
 import { ProgrammerResponseDTO } from "../../../app/features/programmer/models/programmer-response-dto";
 import { Skill } from "../../../app/features/programmer/models/skill";
 export interface ProgrammerState{
@@ -11,6 +12,7 @@ export interface ProgrammerState{
         list: boolean
     }
     error: string | null;
-    createSuccess: boolean
+    createSuccess: boolean;
+    currentProgrammer: ProgrammerDetailDTO | null
 }
 

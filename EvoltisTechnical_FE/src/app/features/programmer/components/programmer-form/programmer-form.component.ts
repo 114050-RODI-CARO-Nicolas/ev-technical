@@ -6,8 +6,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { AsyncPipe } from '@angular/common';
-import { loadSkills, createProgrammer, updateProgrammer } from '../../../../../core/store/actions/programmer.action';
-import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading } from '../../../../../core/store/selectors/programmer.selectors';
+import { loadSkills, createProgrammer, updateProgrammer, loadProgrammers, loadProgrammerById } from '../../../../../core/store/actions/programmer.action';
+import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading, selectCurrentProgrammer } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../../../../core/store/app.state';
 
@@ -42,7 +42,7 @@ export class ProgrammerFormComponent implements OnInit {
     this.skills$=this.store.select(selectSkills);
     this.skillsLoading$=this.store.select(selectSkillsLoading)
     this.createLoading$=this.store.select(selectCreateLoading);
-    this.currentProgrammer$=this.store.select(selectProgrammerById(this.route.snapshot.params['id']));
+    this.currentProgrammer$=this.store.select(selectCurrentProgrammer);
     this.initForm();
   }
 
@@ -63,14 +63,27 @@ export class ProgrammerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadSkills());
-    if(this.mode !== 'create'){
+   
+    if(this.mode !== 'create') {
+      this.store.dispatch(loadProgrammers());
+      const id = Number(this.route.snapshot.params['id']);
+      this.store.dispatch(loadProgrammerById({id}));
       this.currentProgrammer$.subscribe(programmer => {
-        if(programmer){
-          this.candidateForm.patchValue(programmer);
+        if(programmer) {
+          this.candidateForm.patchValue({
+            ...programmer,
+            skillIds: programmer.skills?.map(s=> s.id ) || [] 
+          });
         }
-      });
+      })
+    
     }
+
+
+  
   };
+
+
 
 
   onSubmit(){
