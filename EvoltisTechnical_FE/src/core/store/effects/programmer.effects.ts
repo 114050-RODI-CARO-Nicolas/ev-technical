@@ -31,15 +31,20 @@ export class ProgrammerEffects {
 );
 
 
-/*
+
 loadSkills$ = createEffect(()=> 
     this.actions$.pipe(
         ofType(ProgrammerActions.loadSkills),
         mergeMap(()=>
-        //programmerService.getSkills....
+            this.programmerService.getAvailableSkills().pipe(
+                map(skills => ProgrammerActions.loadSkillsSuccess({ skills})),
+                catchError( error => of(ProgrammerActions.loadSkillsFailure({
+                    error: error.message
+                })))
+            )
         )
     )
-) */
+) 
 
 
 }

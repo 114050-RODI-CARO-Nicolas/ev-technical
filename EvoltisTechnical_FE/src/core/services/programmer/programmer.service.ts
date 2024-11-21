@@ -16,7 +16,11 @@ export class ProgrammerService {
   private http: HttpClient = inject(HttpClient);
 
 
+
   
+  getAvailableSkills(): Observable<Skill[]>{
+    return this.http.get<Skill[]>(`${this.baseUrl}/skills`);
+  }
 
 
     getAllProgrammers(): Observable<ProgrammerResponseDTO[]> {

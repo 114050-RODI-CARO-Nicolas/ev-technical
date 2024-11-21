@@ -20,4 +20,14 @@ export const selectProgrammersError = createSelector(
     (state: ProgrammerState) => state.error
 );
 
+export const selectSkills = createSelector(
+    selectProgrammerState,
+    (state: ProgrammerState) => state.skills
+);
+
+export const selectCreateSuccess = createSelector(
+    selectProgrammerState,
+    (state: ProgrammerState) => state.createSuccess
+);
+
 
