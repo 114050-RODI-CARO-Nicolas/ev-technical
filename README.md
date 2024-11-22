@@ -66,10 +66,10 @@ El frontend está construido con **Angular** y se comunica con el backend a trav
 
 ### Configuración inicial
 
-1. Clonar el repositorio y ubícate en la ruta del frontend:
+1. Clonar el repositorio y ubicarse en la ruta del frontend, que siempre es donde está ubicado el archivo package.json
    ```bash
    git clone <url>
-   cd <ruta-del-frontend>
+   cd EvoltisTechnical_FE
    ```
 
 2. Instalar las dependencias necesarias:
@@ -77,7 +77,7 @@ El frontend está construido con **Angular** y se comunica con el backend a trav
    npm install
    ```
 
-3. Ejecuta el siguiente comando para levantar el servidor de desarrollo de Angular:
+3. Ejecutar el siguiente comando para levantar el servidor de desarrollo de Angular:
    ```bash
    ng serve
    ```
