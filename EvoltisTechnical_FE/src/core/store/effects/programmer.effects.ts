@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import { of } from "rxjs";
-import { map, mergeMap, catchError } from "rxjs/operators";
+import { map, mergeMap, catchError, tap } from "rxjs/operators";
 import * as ProgrammerActions from '../actions/programmer.action';
 import { ProgrammerService } from "../../services/programmer/programmer.service";
 
@@ -78,15 +78,21 @@ export class ProgrammerEffects {
         this.updateProgrammer$ = createEffect(() =>
             this.actions$.pipe(
                 ofType(ProgrammerActions.updateProgrammer),
-                mergeMap(({ id, programmer }) =>
-                    this.programmerService.updateProgrammer(id, programmer).pipe(
-                        map(updatedProgrammer =>
-                            ProgrammerActions.updateProgrammerSuccess({ programmer: updatedProgrammer })),
-                        catchError(error =>
-                            of(ProgrammerActions.updateProgrammerFailure({ error: error.message }))
-                        )
+                tap(action => console.log('Effect receiving action:', action)),
+                mergeMap(({ id, programmer }) => {
+                    console.log('Calling service with:', { id, programmer });
+                    return this.programmerService.updateProgrammer(id, programmer).pipe(
+                        tap(response => console.log('Service response:', response)),
+                        map(updatedProgrammer => {
+                            console.log('Creating success action:', updatedProgrammer);
+                            return ProgrammerActions.updateProgrammerSuccess({ programmer: updatedProgrammer })
+                        }),
+                        catchError(error => {
+                            console.error('Effect error:', error);
+                            return of(ProgrammerActions.updateProgrammerFailure({ error: error.message }))
+                        })
                     )
-                )
+                })
             )
         );
 

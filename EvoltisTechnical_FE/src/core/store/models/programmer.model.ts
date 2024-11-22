@@ -13,6 +13,7 @@ export interface ProgrammerState{
     }
     error: string | null;
     createSuccess: boolean;
+    updateSuccess: boolean;
     currentProgrammer: ProgrammerDetailDTO | null
 }
 

@@ -4,14 +4,41 @@
     padding: 2rem;
 }
 
-.grid {
-    gap: 1.5rem;
+.p-card {
+    min-width: 800px; 
 }
 
-.p-float-label{
-    width: 100%
+.form-grid {
+    display: grid;
+    gap: 2rem;
+    padding: 1rem;
 }
 
-input, p-multiSelect{
-    width: 100%
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.field-label {
+    font-weight: 600;
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+}
+
+:host ::ng-deep {
+    .p-inputtext {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .p-multiselect {
+        width: 100%;
+    }
+
+    .p-float-label label {
+        background: white;
+        padding: 0 0.5rem;
+        margin-left: -0.25rem;
+    }
 }

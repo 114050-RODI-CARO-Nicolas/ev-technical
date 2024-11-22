@@ -1,29 +1,39 @@
+
 <p-card [header]="mode === 'create' ? 'Nuevo candidato' : mode==='edit' ? 'Editar datos de candidato' : 'Detalles de candidato' ">
-    <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+    <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="form-grid">
         <div class="grid">
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="firstName" formControlName="firstName" />
-                    <label for="firstName">Nombre</label>
-                </span>
+            <div class="col-12 md:col-6 form-field">
+                <span class="field-label">Nombre</span>
+                    <input 
+                    pInputText 
+                    id="firstName" 
+                    formControlName="firstName" 
+                    [class.p-filled]="candidateForm.get('firstName')?.value"
+                />
                 @if(candidateForm.get('firstName')?.touched && candidateForm.get('firstName')?.errors?.['required']) {
                     <small class="p-error">El nombre es requerido</small>
                 }
             </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="lastName" formControlName="lastName" />
-                    <label for="lastName">Apellido</label>
-                </span>
+            <div class="col-12 md:col-6 form-field">
+                <span class="field-label">Apellido</span>
+                <input 
+                    pInputText 
+                    id="lastName" 
+                    formControlName="lastName"
+                    [class.p-filled]="candidateForm.get('lastName')?.value"
+                />
                 @if(candidateForm.get('lastName')?.touched && candidateForm.get('lastName')?.errors?.['required']){
                     <small class="p-error">El apellido es requerido</small>
                 }
             </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="email" formControlName="emailAddress" />
-                    <label for="email">Correo electrónico</label>
-                </span>
+            <div class="col-12 md:col-6 form-field">
+                <span class="field-label">Correo electrónico</span>
+                <input 
+                    pInputText 
+                    id="email" 
+                    formControlName="emailAddress"
+                    [class.p-filled]="candidateForm.get('emailAddress')?.value"
+                />
                 @if(candidateForm.get('emailAddress')?.touched && candidateForm.get('emailAddress')?.errors?.['required']){
                     <small class="p-error">El correo electrónico es requerido</small>
                 }
@@ -31,19 +41,22 @@
                     <small class="p-error">Email inválido</small>
                 }
             </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="phone" formControlName="phoneNumber" />
-                    <label for="email">Numero de teléfono</label>
-                </span>
+            <div class="col-12 md:col-6 form-field">
+                <span class="field-label">Número de teléfono</span>
+                <input 
+                    pInputText 
+                    id="phone" 
+                    formControlName="phoneNumber"
+                    [class.p-filled]="candidateForm.get('phoneNumber')?.value"
+                />
                 @if(candidateForm.get('phoneNumber')?.touched && candidateForm.get('phoneNumber')?.errors?.['required']){
                     <small class="p-error">El número de teléfono es requerido</small>
                 }
             </div>
         </div>
 
-        <div class="col-12">
-            <span class="p-float-label">
+        <div class="col-12 form-field">
+            <span class="field-label"> Habilidades</span>
                 <p-multiSelect
                     [options]="(skills$ | async) || []"
                     formControlName="skillIds"
@@ -53,7 +66,7 @@
                     placeholder="Seleccione las habilidades"
                 >
                 </p-multiSelect>
-            </span>
+            
             @if(candidateForm.get('skillIds')?.touched && candidateForm.get('skillIds')?.errors?.['required']) {
                 <small class="p-error">Debe seleccionar al menos una habilidades</small>
             }

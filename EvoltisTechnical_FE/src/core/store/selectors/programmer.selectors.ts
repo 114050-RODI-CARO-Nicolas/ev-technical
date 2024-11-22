@@ -41,6 +41,11 @@ export const selectCurrentProgrammer = createSelector(
     (state: ProgrammerState) => state.currentProgrammer
 );
 
+export const selectUpdateSuccess = createSelector(
+    selectProgrammerFeature,
+    (state: ProgrammerState) => state.updateSuccess
+);
+
 
 
 

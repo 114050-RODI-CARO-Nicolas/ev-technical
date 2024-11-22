@@ -14,6 +14,7 @@ const initialState : ProgrammerState= {
     },
     error: null,
     createSuccess: false,
+    updateSuccess: true,
     currentProgrammer: null
 };
 
@@ -71,19 +72,26 @@ export const programmerReducer = createReducer(
     on(ProgrammerActions.updateProgrammer, (state)=> ({
       ...state,
       loading: {...state.loading, update: true},
+      updateSuccess: false,
       error: null
     })),
-    on(ProgrammerActions.updateProgrammerSuccess, (state, {programmer}) => ({
-      ...state,
-      loading: {...state.loading, update: false},
-      programmers: state.programmers.map(p=>
-        p.id === programmer.id ? programmer : p
-      )
-    })),
+   
+    on(ProgrammerActions.updateProgrammerSuccess, (state, { programmer }) => {
+      console.log('Reducer handling success:', programmer);
+      return {
+          ...state,
+          loading: { ...state.loading, update: false },
+          programmers: state.programmers.map(p =>
+              p.id === programmer.id ? programmer : p
+          ),
+          updateSuccess: true
+      };
+    }),
     on(ProgrammerActions.updateProgrammerFailure, (state, {error}) => ({
       ...state,
       loading: {...state.loading, update: false},
-      error
+      error,
+      updateSuccess: false
     })),
     on(ProgrammerActions.deleteProgrammer, (state)=> ({
       ...state,
