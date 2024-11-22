@@ -14,7 +14,6 @@ const initialState : ProgrammerState= {
     },
     error: null,
     createSuccess: false,
-    updateSuccess: false,
     currentProgrammer: null
 };
 
@@ -72,22 +71,19 @@ export const programmerReducer = createReducer(
     on(ProgrammerActions.updateProgrammer, (state)=> ({
       ...state,
       loading: {...state.loading, update: true},
-      error: null,
-      updateSuccess: false
+      error: null
     })),
     on(ProgrammerActions.updateProgrammerSuccess, (state, {programmer}) => ({
       ...state,
       loading: {...state.loading, update: false},
       programmers: state.programmers.map(p=>
         p.id === programmer.id ? programmer : p
-      ),
-      updateSuccess: true
+      )
     })),
     on(ProgrammerActions.updateProgrammerFailure, (state, {error}) => ({
       ...state,
       loading: {...state.loading, update: false},
-      error,
-      updateSuccess: false
+      error
     })),
     on(ProgrammerActions.deleteProgrammer, (state)=> ({
       ...state,
@@ -110,6 +106,7 @@ export const programmerReducer = createReducer(
     on(ProgrammerActions.loadProgrammerByIdSuccess, (state, { programmer }) => ({
       ...state,
       loading: { ...state.loading, detail: false },
+      // Actualiza el programador en el array si existe
       programmers: state.programmers.map(p => 
           p.id === programmer.id ? programmer : p
       ),

@@ -41,18 +41,6 @@ export const selectCurrentProgrammer = createSelector(
     (state: ProgrammerState) => state.currentProgrammer
 );
 
-export const selectUpdateSuccess = createSelector(
-    selectProgrammerFeature,
-    (state: ProgrammerState) => state.updateSuccess // Necesitaremos añadir esto al state
-);
-
-
-
-export const selectError = createSelector(
-    selectProgrammerFeature,
-    (state: ProgrammerState) => state.error
-);
-
 
 
 
