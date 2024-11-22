@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { AsyncPipe } from '@angular/common';
-import { loadSkills, createProgrammer, updateProgrammer, loadProgrammers, loadProgrammerById } from '../../../../../core/store/actions/programmer.action';
+import { loadSkills, createProgrammer, updateProgrammer, loadProgrammers, loadProgrammerById, updateProgrammerSuccess, createProgrammerSuccess, resetFormState } from '../../../../../core/store/actions/programmer.action';
 import { selectSkills, selectProgrammerById, selectCreateSuccess, selectCreateLoading, selectSkillsLoading, selectCurrentProgrammer, selectUpdateSuccess, selectError } from '../../../../../core/store/selectors/programmer.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppState } from '../../../../../core/store/app.state';
@@ -36,6 +36,39 @@ export class ProgrammerFormComponent implements OnInit {
   createLoading$;
   currentProgrammer$;
 
+
+  private setupStateHandlers(){
+    combineLatest([
+      this.store.select(selectCreateSuccess),
+      this.store.select(selectUpdateSuccess)
+    ]).pipe(
+      filter(([createSuccess, updateSuccess])=> createSuccess || updateSuccess),
+      take(1)
+    ).subscribe( ([createSuccess])=> {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Éxito',
+        detail: createSuccess ? 'Candidato dado de alta con éxito ' : 'Datos de candidato actualizados con éxito'
+      });
+
+      timer(5000).pipe(take(1)).subscribe(() => {
+        this.router.navigate(['/candidates/list']);
+      });
+
+      this.store.select(selectError).pipe(
+        filter(error=> !!error),
+        take(1)
+      ).subscribe(error => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error || 'Error'
+        });
+      });
+    })
+  }
+ 
+
   constructor(private fb: FormBuilder, private store: Store<AppState>, private route: ActivatedRoute, private router: Router, private messageService: MessageService){
     const routeMode = this.route.snapshot.data['mode'];
     if(routeMode){
@@ -46,41 +79,7 @@ export class ProgrammerFormComponent implements OnInit {
     this.createLoading$=this.store.select(selectCreateLoading);
     this.currentProgrammer$=this.store.select(selectCurrentProgrammer);
     this.initForm();
-
-      combineLatest([
-        this.store.select(selectCreateSuccess),
-        this.store.select(selectUpdateSuccess)
-    ]).subscribe(([createSuccess, updateSuccess]) => {
-        if (createSuccess || updateSuccess) {
-            this.messageService.add({
-                severity: 'success',
-                summary: 'Éxito',
-                detail: createSuccess 
-                    ? 'Candidato creado correctamente' 
-                    : 'Candidato actualizado correctamente'
-            });
-            
-            timer(5000).pipe(take(1)).subscribe(() => {
-                this.router.navigate(['/candidates/list']);
-            });
-        }
-    });
-
-      this.store.select(selectError).subscribe(error => {
-          if (error) {
-              this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: error
-              });
-          }
-      });
-
-    
-
-    
-
-
+    this.setupStateHandlers();
   }
 
   private initForm(){
@@ -114,7 +113,7 @@ export class ProgrammerFormComponent implements OnInit {
                 filter(programmer => !!programmer),
                 take(1)
             )
-        ]).subscribe(([skills, programmer]) => {
+        ]).subscribe(([,programmer]) => {
             this.candidateForm.patchValue({
                 ...programmer,
                 skillIds: programmer.skills?.map(s => s.id) || []
@@ -123,6 +122,10 @@ export class ProgrammerFormComponent implements OnInit {
     } else {
         this.store.dispatch(loadSkills());
     }
+}
+
+ngOnDestroy(): void {
+  this.store.dispatch(resetFormState());
 }
 
 

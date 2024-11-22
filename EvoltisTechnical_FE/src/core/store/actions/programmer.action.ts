@@ -109,6 +109,13 @@ export const deleteProgrammerFailure = createAction(
 );
 
 
+//Reset the state of the create/update Programmer form
+
+export const resetFormState = createAction('[Programmer] Reset Form State');
+
+
+
+
 
 
 

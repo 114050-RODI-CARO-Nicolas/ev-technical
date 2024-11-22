@@ -121,6 +121,12 @@ export const programmerReducer = createReducer(
       loading: { ...state.loading, detail: false },
       error,
       currentProgrammer: null
+  })),
+  on(ProgrammerActions.resetFormState, (state)=> ({
+    ...state,
+    createSuccess: false,
+    updateSuccess: false,
+    error: null
   }))
 
   );
